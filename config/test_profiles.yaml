@@ -1,0 +1,59 @@
+default:
+  base_url: "https://the-internet.herokuapp.com/"
+  suites:
+    - navigation
+    - error_states
+  browser:
+    name: "chrome"
+    headless: true
+    timeout: 30
+    window_width: 1366
+    window_height: 768
+    arguments:
+      - "--no-sandbox"
+      - "--disable-dev-shm-usage"
+  reports_dir: "reports"
+  metadata:
+    environment: "demo"
+    visibility: "public"
+
+full_demo:
+  base_url: "https://the-internet.herokuapp.com/"
+  suites:
+    - navigation
+    - error_states
+    - accessibility
+    - visual
+  browser:
+    name: "chrome"
+    headless: true
+    timeout: 30
+    window_width: 1366
+    window_height: 768
+    arguments:
+      - "--no-sandbox"
+      - "--disable-dev-shm-usage"
+  reports_dir: "reports"
+  metadata:
+    environment: "demo"
+    visibility: "public"
+    purpose: "complete public showcase"
+
+local_debug:
+  base_url: "https://the-internet.herokuapp.com/"
+  suites:
+    - navigation
+    - error_states
+  browser:
+    name: "chrome"
+    headless: false
+    timeout: 30
+    window_width: 1440
+    window_height: 900
+    arguments:
+      - "--no-sandbox"
+      - "--disable-dev-shm-usage"
+  reports_dir: "reports"
+  metadata:
+    environment: "local"
+    visibility: "private"

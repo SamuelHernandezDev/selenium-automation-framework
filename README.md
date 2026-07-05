@@ -1,141 +1,173 @@
 # Selenium Automation Framework
 
-A scalable UI automation framework built with **Python**, **Selenium WebDriver**, and the **Page Object Model (POM)** design pattern.
+A modular UI automation framework built with Python, Selenium WebDriver, Page Object Model patterns, configurable check suites, JSON reporting, and AI-ready execution context.
 
-The project focuses on creating a clean, reusable, and maintainable automation architecture that can easily scale as new test suites and features are introduced.
+The goal is to show a clean automation architecture that can grow from public demo checks into private reporting, test-case generation, and AI-assisted QA workflows.
 
----
+## What This Project Demonstrates
 
-## Features
-
-- Page Object Model (POM) architecture
-- Reusable page components
-- Centralized configuration
-- WebDriver Manager integration
-- Modular project structure
-- Chrome WebDriver support
-- Clean separation between Pages and Tests
-- Ready for future pytest integration
-
----
+- Selenium WebDriver automation with reusable Page Objects.
+- Configurable execution through YAML profiles.
+- A central driver factory.
+- Reusable check suites for navigation, error states, accessibility signals, and visual smoke checks.
+- Structured result models for checks, evidence, and full test runs.
+- JSON reports generated per execution.
+- AI-ready context generated from real automation results.
+- A custom runner that can execute suites by profile, suite, or check.
 
 ## Project Structure
 
 ```text
 selenium-automation-framework/
-│
-├── config/
-│   └── settings.py
-│
-├── pages/
-│   ├── base_page.py
-│   ├── home_page.py
-│   ├── redirect_page.py
-│   └── status_codes_page.py
-│
-├── tests/
-│   ├── navigation/
-│   ├── status-codes/
-│   └── base_test.py
-│
-├── utils/
-│   └── driver.py
-│
-├── screenshots/
-├── docs/
-│
-├── requirements.txt
-├── LICENSE
-└── README.md
+|-- checks/
+|   |-- accessibility_checks.py
+|   |-- error_state_checks.py
+|   |-- form_validation_checks.py
+|   |-- input_checks.py
+|   |-- navigation_checks.py
+|   |-- registry.py
+|   `-- visual_checks.py
+|-- config/
+|   |-- settings.py
+|   `-- test_profiles.yaml
+|-- core/
+|   |-- ai_context_builder.py
+|   |-- driver_factory.py
+|   |-- evidence_collector.py
+|   |-- result.py
+|   `-- test_runner.py
+|-- docs/
+|   |-- ai-reporting-strategy.md
+|   |-- architecture.md
+|   `-- public-roadmap.md
+|-- pages/
+|   |-- base_page.py
+|   |-- home_page.py
+|   |-- redirect_page.py
+|   `-- status_codes_page.py
+|-- reports/
+|   |-- html/
+|   |-- json/
+|   `-- screenshots/
+|-- tests/
+|-- utils/
+|-- requirements.txt
+`-- README.md
 ```
 
----
+Generated reports and screenshots are ignored by Git.
 
-## Technologies
+## Available Suites
 
-- Python
-- Selenium WebDriver
-- ChromeDriver Manager
-- Page Object Model (POM)
+```text
+navigation
+error_states
+accessibility
+visual
+```
 
----
-
-## Current Test Suites
-
-### Navigation
-
-- Verify page title
-- Verify redirect navigation
-
-### HTTP Status Codes
-
-- Retrieve available HTTP status codes
-- Verify HTTP 500 status page
-
----
-
-## Getting Started
-
-### Clone the repository
+Current checks can be listed with:
 
 ```bash
-git clone
-
-cd selenium-automation-framework
+venv\Scripts\python.exe -m core.test_runner --list
 ```
 
-### Create a virtual environment
+## Setup
+
+Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
-```
-
-### Activate the environment
-
-Windows
-
-```bash
 venv\Scripts\activate
 ```
 
-Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-### Install dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run a test
+## Run The Framework
 
-Example:
+Run the default profile:
 
 ```bash
-python tests/navigation/page_title_test.py
+venv\Scripts\python.exe -m core.test_runner --profile default
 ```
 
----
+Run the full public demo profile:
 
-## Roadmap
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile full_demo
+```
 
-### Version 1.0
+Run a specific suite:
 
-- Page Object Model architecture
-- Navigation tests
-- HTTP Status Code tests
-- Centralized configuration
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation
+```
 
-### Planned Features
+Run a specific check:
 
-- pytest integration
-- HTML reports
-- Allure reports
-- GitHub Actions CI
-- Screenshots on failure
-- Fixtures
-- Cross-browser execution
-- Parallel execution
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation --check page_title
+```
+
+Override the target URL:
+
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile default --base-url https://the-internet.herokuapp.com/
+```
+
+## Output
+
+Each run writes structured artifacts under `reports/json/`:
+
+```text
+latest_run.json
+<run_id>.json
+latest_ai_context.json
+<run_id>_ai_context.json
+```
+
+Visual and failure evidence is stored under:
+
+```text
+reports/screenshots/
+reports/dom/
+```
+
+## AI-Ready Context
+
+This project does not call an AI API in the public version. Instead, it produces a safe structured payload that can be used later by a private AI reporting layer.
+
+The AI context includes:
+
+- run summary and risk level,
+- executed suite coverage,
+- findings and evidence references,
+- recommended focus areas,
+- suggested future test cases,
+- reporting guidance.
+
+See [docs/ai-reporting-strategy.md](docs/ai-reporting-strategy.md).
+
+## Documentation
+
+- [Architecture](docs/architecture.md)
+- [AI Reporting Strategy](docs/ai-reporting-strategy.md)
+- [Public Roadmap](docs/public-roadmap.md)
+
+## Current Status
+
+The framework can execute real Selenium checks against a public demo site and produce JSON reports plus AI-ready context.
+
+Some legacy folders/files are intentionally still present while the project is being migrated:
+
+- `utils/driver.py` is currently a compatibility wrapper.
+- older script-style tests under `tests/` will be replaced or converted later.
+- `input_checks.py` and `form_validation_checks.py` are reserved for future flows with real forms.
+
+## License
+
+MIT License.

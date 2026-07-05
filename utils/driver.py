@@ -1,37 +1,11 @@
-# utils/driver.py
-
 """
-WebDriver factory.
+Legacy WebDriver factory wrapper.
 
-Creates and configures a Chrome WebDriver instance
-used throughout the automation framework.
+Existing tests import from utils.driver. The implementation now delegates
+to core.driver_factory so the project has one source of driver behavior.
 """
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-
-from webdriver_manager.chrome import ChromeDriverManager
-
-from config.settings import HEADLESS
+from core.driver_factory import create_driver
 
 
-def create_driver():
-    """
-    Create and configure a Chrome WebDriver.
-    """
-
-    options = Options()
-
-    if HEADLESS:
-        options.add_argument("--headless=new")
-
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-
-    return webdriver.Chrome(
-        service=Service(
-            ChromeDriverManager().install()
-        ),
-        options=options,
-    )
+__all__ = ["create_driver"]

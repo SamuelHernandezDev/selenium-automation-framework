@@ -33,12 +33,12 @@ class HomePage(BasePage):
     # Navigation
     # --------------------------------------------------
 
-    def open(self):
+    def open(self, base_url: str = BASE_URL):
         """
         Open the application's home page.
         """
 
-        self.visit(BASE_URL)
+        self.visit(base_url)
 
     # --------------------------------------------------
     # Actions
