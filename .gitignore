@@ -38,17 +38,11 @@ allure-results/
 allure-report/
 
 # ==========================================
-# Test Reports
+# Generated Test Artifacts
 # ==========================================
 
 reports/
-
-# ==========================================
-# Screenshots
-# (Generated during execution)
-# ==========================================
-
-screenshots/*.png
+screenshots/
 
 # ==========================================
 # Operating System

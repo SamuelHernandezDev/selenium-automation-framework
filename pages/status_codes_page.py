@@ -1,5 +1,3 @@
-# pages/status_codes_page.py
-
 """
 HTTP Status Codes Page Object.
 
@@ -36,7 +34,7 @@ class StatusCodesPage(BasePage):
     # Information
     # --------------------------------------------------
 
-    def get_codes(self):
+    def get_codes(self) -> list[str]:
         """
         Return all available HTTP status codes.
         """
@@ -50,7 +48,7 @@ class StatusCodesPage(BasePage):
             for code in codes
         ]
 
-    def get_message(self):
+    def get_message(self) -> str:
         """
         Return the message displayed
         on the current status code page.
@@ -64,7 +62,7 @@ class StatusCodesPage(BasePage):
     # Actions
     # --------------------------------------------------
 
-    def open_code(self, code: str):
+    def open_code(self, code: str) -> "StatusCodesPage":
         """
         Open the specified HTTP status code page.
 

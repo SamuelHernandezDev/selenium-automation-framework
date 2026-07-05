@@ -20,6 +20,7 @@ This roadmap separates what belongs in the public showcase from private future w
 - AI-ready context reports.
 - Internal pytest suite for framework contracts.
 - Removal of the legacy driver wrapper.
+- Generated reports kept out of source control.
 
 ## Next Public Improvements
 

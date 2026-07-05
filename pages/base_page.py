@@ -1,5 +1,3 @@
-# pages/base_page.py
-
 """
 Base Page Object.
 
@@ -11,28 +9,30 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from config.settings import DEFAULT_TIMEOUT
-
 
 class BasePage:
     """
     Base class for all Page Objects.
     """
 
-    def __init__(self, driver):
+    def __init__(
+        self,
+        driver,
+        timeout: int = 30,
+    ):
 
         self.driver = driver
 
         self.wait = WebDriverWait(
             driver,
-            DEFAULT_TIMEOUT,
+            timeout,
         )
 
     # --------------------------------------------------
     # Navigation
     # --------------------------------------------------
 
-    def visit(self, url: str):
+    def visit(self, url: str) -> None:
         """
         Navigate to the specified URL.
         """
@@ -43,7 +43,7 @@ class BasePage:
     # Actions
     # --------------------------------------------------
 
-    def click(self, by: By, value: str):
+    def click(self, by: By, value: str) -> None:
         """
         Wait until an element becomes clickable
         and perform a click.
@@ -91,7 +91,7 @@ class BasePage:
             )
         )
 
-    def get_text(self, by: By, value: str):
+    def get_text(self, by: By, value: str) -> str:
         """
         Wait until an element is visible
         and return its text.
@@ -106,7 +106,7 @@ class BasePage:
     # Browser
     # --------------------------------------------------
 
-    def switch_to_last_window(self):
+    def switch_to_last_window(self) -> None:
         """
         Switch focus to the newest browser window.
         """
@@ -117,7 +117,7 @@ class BasePage:
                 self.driver.window_handles[-1]
             )
 
-    def get_title(self):
+    def get_title(self) -> str:
         """
         Return the current page title.
         """

@@ -45,17 +45,13 @@ selenium-automation-framework/
 |   |-- home_page.py
 |   |-- redirect_page.py
 |   `-- status_codes_page.py
-|-- reports/
-|   |-- html/
-|   |-- json/
-|   `-- screenshots/
 |-- tests/
 |-- utils/
 |-- requirements.txt
 `-- README.md
 ```
 
-Generated reports and screenshots are ignored by Git.
+Generated reports and screenshots are ignored by Git and created at runtime.
 
 ## Available Suites
 
@@ -136,6 +132,8 @@ Visual and failure evidence is stored under:
 reports/screenshots/
 reports/dom/
 ```
+
+The repository does not track generated report folders. The runner creates them when needed.
 
 ## AI-Ready Context
 

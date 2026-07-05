@@ -1,5 +1,3 @@
-# pages/home_page.py
-
 """
 Home Page Object.
 
@@ -8,8 +6,6 @@ the available interactions from the landing page.
 """
 
 from selenium.webdriver.common.by import By
-
-from config.settings import BASE_URL
 
 from pages.base_page import BasePage
 from pages.redirect_page import RedirectPage
@@ -33,7 +29,7 @@ class HomePage(BasePage):
     # Navigation
     # --------------------------------------------------
 
-    def open(self, base_url: str = BASE_URL):
+    def open(self, base_url: str) -> None:
         """
         Open the application's home page.
         """

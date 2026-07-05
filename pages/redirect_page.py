@@ -1,5 +1,3 @@
-# pages/redirect_page.py
-
 """
 Redirect Page Object.
 
@@ -37,7 +35,7 @@ class RedirectPage(BasePage):
     # Information
     # --------------------------------------------------
 
-    def get_heading(self):
+    def get_heading(self) -> str:
         """
         Return the page heading.
         """
@@ -50,7 +48,7 @@ class RedirectPage(BasePage):
     # Navigation
     # --------------------------------------------------
 
-    def go_to_status_codes(self):
+    def go_to_status_codes(self) -> StatusCodesPage:
         """
         Navigate to the HTTP Status Codes page.
 

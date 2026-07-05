@@ -104,7 +104,7 @@ The next migration step is to remove remaining legacy assumptions and make Page 
 
 ### reports
 
-Reports are generated artifacts and are ignored by Git.
+Reports are generated artifacts and are ignored by Git. The repository does not track empty report folders because the runner creates them when needed.
 
 The runner writes:
 
