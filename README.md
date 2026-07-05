@@ -46,7 +46,11 @@ selenium-automation-framework/
 |   |-- redirect_page.py
 |   `-- status_codes_page.py
 |-- tests/
-|-- utils/
+|   |-- test_ai_context_builder.py
+|   |-- test_pages.py
+|   |-- test_registry.py
+|   |-- test_result_models.py
+|   `-- test_settings.py
 |-- requirements.txt
 `-- README.md
 ```
@@ -83,6 +87,20 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+## Validate The Project
+
+Run the internal unit tests:
+
+```bash
+venv\Scripts\python.exe -m pytest
+```
+
+Check dependency consistency:
+
+```bash
+venv\Scripts\python.exe -m pip check
+```
+
 ## Run The Framework
 
 Run the default profile:
@@ -96,6 +114,8 @@ Run the full public demo profile:
 ```bash
 venv\Scripts\python.exe -m core.test_runner --profile full_demo
 ```
+
+This profile targets a public demo site, so browser results can be affected by external availability. Use the unit test suite for deterministic local validation.
 
 Run a specific suite:
 
@@ -113,6 +133,18 @@ Override the target URL:
 
 ```bash
 venv\Scripts\python.exe -m core.test_runner --profile default --base-url https://the-internet.herokuapp.com/
+```
+
+## Validation Strategy
+
+Use `pytest` for deterministic framework checks. Use the Selenium runner for browser execution and evidence generation against the configured target.
+
+Recommended local validation:
+
+```bash
+venv\Scripts\python.exe -m pytest
+venv\Scripts\python.exe -m pip check
+venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation --check page_title
 ```
 
 ## Output
@@ -163,6 +195,7 @@ The framework can execute real Selenium checks against a public demo site and pr
 Some areas are intentionally reserved for future expansion:
 
 - `tests/` contains internal unit tests for the framework.
+- Selenium browser execution is validated through the runner, not through unit tests.
 - `input_checks.py` and `form_validation_checks.py` are reserved for future flows with real forms.
 
 ## License

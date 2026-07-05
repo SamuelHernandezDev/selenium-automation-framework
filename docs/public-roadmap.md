@@ -21,17 +21,18 @@ This roadmap separates what belongs in the public showcase from private future w
 - Internal pytest suite for framework contracts.
 - Removal of the legacy driver wrapper.
 - Generated reports kept out of source control.
+- Page Objects refined to avoid direct runtime configuration ownership.
 
 ## Next Public Improvements
 
-- Refine Page Objects so they remain interaction-focused.
 - Add README examples with sample output snippets.
 - Add GitHub Actions for static validation.
+- Add a local deterministic demo page or fixture for CI-safe browser checks.
 - Add simple HTML report generation from JSON.
 
 ## Future Public Enhancements
 
-- `pytest` integration for framework internals.
+- Additional pytest coverage for runner edge cases.
 - More flexible check parameters from YAML.
 - Browser selection beyond Chrome.
 - Better report artifact organization by run ID.

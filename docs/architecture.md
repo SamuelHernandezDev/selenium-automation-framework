@@ -100,7 +100,7 @@ Current Page Objects target the public demo site:
 - redirect page,
 - status codes page.
 
-The next migration step is to remove remaining legacy assumptions and make Page Objects fully settings-driven.
+Page Objects stay focused on browser interaction. Runtime configuration such as base URL, browser, and timeout is owned by config, checks, and the runner.
 
 ### reports
 
@@ -126,9 +126,12 @@ The runner writes:
 
 The `tests/` folder contains fast unit tests for framework internals. Selenium browser execution is handled by the runner and is validated separately with profile-based commands.
 
+Unit tests are deterministic and do not depend on external websites. Runner executions use the configured target URL, so public demo runs may be affected by third-party availability.
+
 Current unit test coverage focuses on:
 
 - result serialization,
 - settings loading,
 - registry resolution,
-- AI context generation.
+- AI context generation,
+- Page Object basics.
