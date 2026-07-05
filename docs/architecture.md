@@ -122,8 +122,13 @@ The runner writes:
 - Keep public code free from API keys, private prompts, and client-specific templates.
 - Add abstractions only when they reduce real repetition or clarify ownership.
 
-## Known Migration Notes
+## Tests
 
-`utils/driver.py` currently delegates to `core.driver_factory` for compatibility with older tests. It should be removed once script-style tests are migrated.
+The `tests/` folder contains fast unit tests for framework internals. Selenium browser execution is handled by the runner and is validated separately with profile-based commands.
 
-The `tests/` folder still contains older examples. Future work should either convert them to `pytest` tests for framework internals or replace them with runner-based examples.
+Current unit test coverage focuses on:
+
+- result serialization,
+- settings loading,
+- registry resolution,
+- AI context generation.

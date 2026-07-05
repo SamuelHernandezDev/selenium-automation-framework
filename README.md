@@ -162,10 +162,9 @@ See [docs/ai-reporting-strategy.md](docs/ai-reporting-strategy.md).
 
 The framework can execute real Selenium checks against a public demo site and produce JSON reports plus AI-ready context.
 
-Some legacy folders/files are intentionally still present while the project is being migrated:
+Some areas are intentionally reserved for future expansion:
 
-- `utils/driver.py` is currently a compatibility wrapper.
-- older script-style tests under `tests/` will be replaced or converted later.
+- `tests/` contains internal unit tests for the framework.
 - `input_checks.py` and `form_validation_checks.py` are reserved for future flows with real forms.
 
 ## License

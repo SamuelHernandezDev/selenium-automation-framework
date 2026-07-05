@@ -18,17 +18,12 @@ This roadmap separates what belongs in the public showcase from private future w
 - Custom test runner.
 - JSON technical reports.
 - AI-ready context reports.
+- Internal pytest suite for framework contracts.
+- Removal of the legacy driver wrapper.
 
 ## Next Public Improvements
 
-- Migrate legacy tests away from script-style execution.
-- Remove `utils/driver.py` compatibility wrapper.
-- Clean and modernize the `tests/` folder.
-- Add internal unit tests for:
-  - result serialization,
-  - settings loading,
-  - registry resolution,
-  - AI context generation.
+- Refine Page Objects so they remain interaction-focused.
 - Add README examples with sample output snippets.
 - Add GitHub Actions for static validation.
 - Add simple HTML report generation from JSON.
