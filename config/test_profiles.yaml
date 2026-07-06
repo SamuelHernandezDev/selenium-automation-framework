@@ -46,6 +46,8 @@ local_demo:
     - error_states
     - accessibility
     - visual
+    - inputs
+    - forms
   browser:
     name: "chrome"
     headless: true

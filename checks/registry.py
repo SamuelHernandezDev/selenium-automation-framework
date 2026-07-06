@@ -13,6 +13,8 @@ from core.result import CheckResult
 
 from checks.accessibility_checks import ACCESSIBILITY_CHECKS
 from checks.error_state_checks import ERROR_STATE_CHECKS
+from checks.form_validation_checks import FORM_VALIDATION_CHECKS
+from checks.input_checks import INPUT_CHECKS
 from checks.navigation_checks import NAVIGATION_CHECKS
 from checks.visual_checks import VISUAL_CHECKS
 
@@ -25,6 +27,8 @@ SUITE_REGISTRY: dict[str, dict[str, CheckCallable]] = {
     "error_states": ERROR_STATE_CHECKS,
     "accessibility": ACCESSIBILITY_CHECKS,
     "visual": VISUAL_CHECKS,
+    "inputs": INPUT_CHECKS,
+    "forms": FORM_VALIDATION_CHECKS,
 }
 
 

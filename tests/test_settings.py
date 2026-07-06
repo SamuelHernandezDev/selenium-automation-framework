@@ -58,3 +58,11 @@ def test_load_settings_raises_for_missing_profile(tmp_path):
             "missing",
             profile_path=profile_path,
         )
+
+
+def test_local_demo_profile_includes_form_suites():
+    settings = load_settings("local_demo")
+
+    assert "inputs" in settings.suites
+    assert "forms" in settings.suites
+    assert settings.base_url == "http://127.0.0.1:5000/"

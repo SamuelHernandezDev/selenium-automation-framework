@@ -68,6 +68,8 @@ navigation
 error_states
 accessibility
 visual
+inputs
+forms
 ```
 
 Current checks can be listed with:
@@ -142,6 +144,8 @@ Run against the local deterministic demo app:
 ```bash
 venv\Scripts\python.exe -m core.test_runner --profile local_demo
 ```
+
+The local demo profile includes navigation, error-state, accessibility, visual, input, and form validation checks.
 
 Run a specific suite:
 
@@ -228,7 +232,7 @@ Some areas are intentionally reserved for future expansion:
 
 - `tests/` contains internal unit tests for the framework.
 - Selenium browser execution is validated through the runner, not through unit tests.
-- `input_checks.py` and `form_validation_checks.py` are reserved for deeper form-specific checks.
+- `input_checks.py` and `form_validation_checks.py` cover the local contact form flow.
 
 ## License
 

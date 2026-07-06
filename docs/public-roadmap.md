@@ -23,6 +23,7 @@ This roadmap separates what belongs in the public showcase from private future w
 - Generated reports kept out of source control.
 - Page Objects refined to avoid direct runtime configuration ownership.
 - Local Flask demo app for deterministic browser automation.
+- Input and form validation checks for the local contact flow.
 
 ## Next Public Improvements
 

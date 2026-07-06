@@ -89,6 +89,8 @@ Current suites:
 - `error_states`
 - `accessibility`
 - `visual`
+- `inputs`
+- `forms`
 
 `checks/registry.py` is the central source used by the runner.
 
@@ -127,6 +129,8 @@ The runner writes:
 - `/health`
 
 The app exists so browser automation can run against a controlled target during local development and future CI.
+
+The input and form validation suites use the `/contact` flow to exercise required fields, invalid input feedback, accessible errors, and successful submission.
 
 ## Design Principles
 
