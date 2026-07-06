@@ -110,6 +110,7 @@ def check_valid_contact_submit_reaches_success(
             "This is a valid form submission message."
         )
         driver.find_element(By.ID, "submit-contact").click()
+        _wait_for_element(driver, "success-message")
 
         heading = driver.find_element(By.TAG_NAME, "h1").text.strip()
         success_message = driver.find_element(By.ID, "success-message").text.strip()

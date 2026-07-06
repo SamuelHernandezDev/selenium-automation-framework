@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate framework
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: python -m pytest
+
+      - name: Check dependency health
+        run: python -m pip check
+
+      - name: Start local demo app
+        run: |
+          python -m demo_app.app > demo_app.log 2>&1 &
+          echo $! > demo_app.pid
+
+      - name: Wait for local demo app
+        run: |
+          python - <<'PY'
+          import json
+          import time
+          import urllib.request
+
+          url = "http://127.0.0.1:5000/health"
+
+          for attempt in range(30):
+              try:
+                  with urllib.request.urlopen(url, timeout=2) as response:
+                      payload = json.loads(response.read().decode("utf-8"))
+                      if payload.get("status") == "ok":
+                          print("Demo app is healthy.")
+                          break
+              except Exception as exc:
+                  print(f"Waiting for demo app: {exc}")
+                  time.sleep(1)
+          else:
+              raise SystemExit("Demo app did not become healthy.")
+          PY
+
+      - name: Run local Selenium demo checks
+        run: python -m core.test_runner --profile local_demo
+
+      - name: Upload generated reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-reports
+          path: |
+            reports/
+            demo_app.log
+          if-no-files-found: ignore

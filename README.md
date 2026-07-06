@@ -1,5 +1,7 @@
 # Selenium Automation Framework
 
+[![CI](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml)
+
 A modular UI automation framework built with Python, Selenium WebDriver, Page Object Model patterns, configurable check suites, JSON reporting, and AI-ready execution context.
 
 The goal is to show a clean automation architecture that can grow from public demo checks into private reporting, test-case generation, and AI-assisted QA workflows.
@@ -30,6 +32,9 @@ selenium-automation-framework/
 |-- config/
 |   |-- settings.py
 |   `-- test_profiles.yaml
+|-- .github/
+|   `-- workflows/
+|       `-- ci.yml
 |-- core/
 |   |-- ai_context_builder.py
 |   |-- driver_factory.py
@@ -106,6 +111,8 @@ Check dependency consistency:
 ```bash
 venv\Scripts\python.exe -m pip check
 ```
+
+GitHub Actions runs unit tests, dependency checks, the local Flask demo app, and the Selenium `local_demo` profile on every push and pull request to `main`.
 
 ## Run The Local Demo App
 

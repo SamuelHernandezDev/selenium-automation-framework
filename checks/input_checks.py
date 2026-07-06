@@ -9,6 +9,8 @@ from typing import Callable
 from urllib.parse import urljoin
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from core.evidence_collector import EvidenceCollector
 from core.result import CheckResult, Severity
@@ -119,6 +121,7 @@ def check_invalid_email_input_feedback(
             "This message is long enough for validation."
         )
         driver.find_element(By.ID, "submit-contact").click()
+        _wait_for_element(driver, "email-error")
 
         error_text = driver.find_element(By.ID, "email-error").text.strip()
         invalid_state = driver.find_element(By.ID, "email").get_attribute(
@@ -273,6 +276,21 @@ def _unexpected_error(
     result.duration_ms = _duration_ms(start)
 
     return result
+
+
+def _wait_for_element(driver, element_id: str):
+    """
+    Wait until an element exists after form submission.
+    """
+
+    return WebDriverWait(
+        driver,
+        10,
+    ).until(
+        EC.presence_of_element_located(
+            (By.ID, element_id)
+        )
+    )
 
 
 def _duration_ms(start: float) -> int:
