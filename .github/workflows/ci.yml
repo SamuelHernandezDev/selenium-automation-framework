@@ -90,9 +90,6 @@ jobs:
           --profile local_demo
           --suite auth
 
-      - name: Run full local demo profile
-        run: python -m core.test_runner --profile local_demo
-
       - name: Upload generated reports on failure
         if: failure()
         uses: actions/upload-artifact@v4

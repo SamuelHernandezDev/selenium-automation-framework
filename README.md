@@ -113,7 +113,7 @@ Check dependency consistency:
 venv\Scripts\python.exe -m pip check
 ```
 
-GitHub Actions runs unit tests, dependency checks, the local Flask demo app, and the Selenium `local_demo` profile on every push and pull request to `main`.
+GitHub Actions runs unit tests, dependency checks, the local Flask demo app, and grouped Selenium suites from the `local_demo` profile on every push and pull request to `main`.
 
 ## Run The Local Demo App
 
