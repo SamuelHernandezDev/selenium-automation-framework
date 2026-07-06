@@ -24,6 +24,7 @@ This roadmap separates what belongs in the public showcase from private future w
 - Page Objects refined to avoid direct runtime configuration ownership.
 - Local Flask demo app for deterministic browser automation.
 - Input and form validation checks for the local contact flow.
+- Authentication demo flow and Selenium checks.
 - GitHub Actions CI for unit tests, dependency checks, and local Selenium demo execution.
 
 ## Next Public Improvements

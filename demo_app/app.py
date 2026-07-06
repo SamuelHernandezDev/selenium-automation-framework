@@ -7,7 +7,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from email.utils import parseaddr
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
+
+
+VALID_EMAIL = "qa@example.com"
+VALID_PASSWORD = "Password123"
 
 
 @dataclass(frozen=True)
@@ -27,10 +31,61 @@ def create_app() -> Flask:
     """
 
     app = Flask(__name__)
+    app.config["SECRET_KEY"] = "qa-demo-secret-key"
 
     @app.get("/")
     def home():
         return render_template("home.html")
+
+    @app.route(
+        "/login",
+        methods=[
+            "GET",
+            "POST",
+        ],
+    )
+    def login():
+        errors = {}
+        values = {
+            "email": "",
+            "password": "",
+        }
+
+        if request.method == "POST":
+            values = {
+                "email": request.form.get("email", "").strip(),
+                "password": request.form.get("password", ""),
+            }
+            errors = validate_login_form(values)
+
+            if not errors:
+                session["user_email"] = values["email"]
+
+                return redirect(url_for("dashboard"))
+
+        return render_template(
+            "login.html",
+            errors=errors,
+            values=values,
+        )
+
+    @app.get("/dashboard")
+    def dashboard():
+        user_email = session.get("user_email")
+
+        if not user_email:
+            return redirect(url_for("login"))
+
+        return render_template(
+            "dashboard.html",
+            user_email=user_email,
+        )
+
+    @app.get("/logout")
+    def logout():
+        session.clear()
+
+        return redirect(url_for("login"))
 
     @app.get("/redirect")
     def redirect_page():
@@ -147,6 +202,28 @@ def validate_contact_form(values: dict[str, str]) -> dict[str, str]:
         errors["message"] = "Message must be at least 10 characters."
     elif len(values["message"]) > 500:
         errors["message"] = "Message must be 500 characters or fewer."
+
+    return errors
+
+
+def validate_login_form(values: dict[str, str]) -> dict[str, str]:
+    """
+    Validate login form values and return field-level or form-level errors.
+    """
+
+    errors = {}
+
+    if not values["email"]:
+        errors["email"] = "Email is required."
+
+    if not values["password"]:
+        errors["password"] = "Password is required."
+
+    if errors:
+        return errors
+
+    if values["email"] != VALID_EMAIL or values["password"] != VALID_PASSWORD:
+        errors["form"] = "Invalid email or password."
 
     return errors
 

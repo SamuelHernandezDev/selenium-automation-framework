@@ -75,6 +75,7 @@ accessibility
 visual
 inputs
 forms
+auth
 ```
 
 Current checks can be listed with:
@@ -152,7 +153,7 @@ Run against the local deterministic demo app:
 venv\Scripts\python.exe -m core.test_runner --profile local_demo
 ```
 
-The local demo profile includes navigation, error-state, accessibility, visual, input, and form validation checks.
+The local demo profile includes navigation, error-state, accessibility, visual, input, form validation, and authentication checks.
 
 Run a specific suite:
 

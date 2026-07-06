@@ -91,6 +91,7 @@ Current suites:
 - `visual`
 - `inputs`
 - `forms`
+- `auth`
 
 `checks/registry.py` is the central source used by the runner.
 
@@ -131,6 +132,8 @@ The runner writes:
 The app exists so browser automation can run against a controlled target during local development and future CI.
 
 The input and form validation suites use the `/contact` flow to exercise required fields, invalid input feedback, accessible errors, and successful submission.
+
+The auth suite uses `/login`, `/dashboard`, and `/logout` to exercise valid login, invalid login feedback, protected page access, and session clearing.
 
 ## Design Principles
 

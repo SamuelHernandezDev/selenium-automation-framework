@@ -15,6 +15,7 @@ from checks.registry import (
 def test_registry_exposes_expected_suites():
     assert available_suites() == [
         "accessibility",
+        "auth",
         "error_states",
         "forms",
         "inputs",
@@ -40,6 +41,7 @@ def test_registry_lists_fully_qualified_checks():
     checks = available_checks()
 
     assert "navigation.page_title" in checks
+    assert "auth.valid_login_reaches_dashboard" in checks
     assert "inputs.invalid_email_feedback" in checks
     assert "forms.valid_contact_submit_success" in checks
     assert "visual.viewport_screenshot" in checks

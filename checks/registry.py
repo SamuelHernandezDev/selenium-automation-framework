@@ -12,6 +12,7 @@ from collections.abc import Callable
 from core.result import CheckResult
 
 from checks.accessibility_checks import ACCESSIBILITY_CHECKS
+from checks.auth_checks import AUTH_CHECKS
 from checks.error_state_checks import ERROR_STATE_CHECKS
 from checks.form_validation_checks import FORM_VALIDATION_CHECKS
 from checks.input_checks import INPUT_CHECKS
@@ -25,6 +26,7 @@ CheckCallable = Callable[..., CheckResult]
 SUITE_REGISTRY: dict[str, dict[str, CheckCallable]] = {
     "navigation": NAVIGATION_CHECKS,
     "error_states": ERROR_STATE_CHECKS,
+    "auth": AUTH_CHECKS,
     "accessibility": ACCESSIBILITY_CHECKS,
     "visual": VISUAL_CHECKS,
     "inputs": INPUT_CHECKS,

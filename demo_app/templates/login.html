@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Login{% endblock %}
+
+{% block content %}
+  <section class="panel" data-testid="login-panel">
+    <h1>Login</h1>
+    <p>Use <strong>qa@example.com</strong> and <strong>Password123</strong> for the successful path.</p>
+
+    {% if errors.form %}
+      <p id="login-error" class="error" role="alert">{{ errors.form }}</p>
+    {% endif %}
+
+    <form id="login-form" method="post" action="{{ url_for('login') }}" novalidate>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input
+          id="login-email"
+          name="email"
+          type="email"
+          value="{{ values.email }}"
+          aria-describedby="login-email-error"
+          {% if errors.email %}aria-invalid="true"{% endif %}
+        >
+        {% if errors.email %}
+          <p id="login-email-error" class="error">{{ errors.email }}</p>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input
+          id="login-password"
+          name="password"
+          type="password"
+          aria-describedby="login-password-error"
+          {% if errors.password %}aria-invalid="true"{% endif %}
+        >
+        {% if errors.password %}
+          <p id="login-password-error" class="error">{{ errors.password }}</p>
+        {% endif %}
+      </div>
+
+      <button id="submit-login" class="button" type="submit">Sign In</button>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Dashboard{% endblock %}
+
+{% block content %}
+  <section class="panel success" data-testid="dashboard-panel">
+    <h1>Dashboard</h1>
+    <p id="dashboard-welcome">Signed in as {{ user_email }}.</p>
+    <a id="logout-link" class="button secondary" href="{{ url_for('logout') }}">Logout</a>
+  </section>
+{% endblock %}
