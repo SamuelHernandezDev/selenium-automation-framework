@@ -63,7 +63,34 @@ jobs:
               raise SystemExit("Demo app did not become healthy.")
           PY
 
-      - name: Run local Selenium demo checks
+      - name: Run navigation and error-state checks
+        run: >
+          python -m core.test_runner
+          --profile local_demo
+          --suite navigation
+          --suite error_states
+
+      - name: Run accessibility and visual checks
+        run: >
+          python -m core.test_runner
+          --profile local_demo
+          --suite accessibility
+          --suite visual
+
+      - name: Run form and input checks
+        run: >
+          python -m core.test_runner
+          --profile local_demo
+          --suite inputs
+          --suite forms
+
+      - name: Run authentication checks
+        run: >
+          python -m core.test_runner
+          --profile local_demo
+          --suite auth
+
+      - name: Run full local demo profile
         run: python -m core.test_runner --profile local_demo
 
       - name: Upload generated reports on failure
