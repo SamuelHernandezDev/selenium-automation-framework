@@ -37,7 +37,7 @@ def check_login_form_renders(
     start = perf_counter()
 
     try:
-        driver.get(_login_url(base_url))
+        _open_login_page(driver, base_url)
         expected_ids = [
             "login-email",
             "login-password",
@@ -98,7 +98,7 @@ def check_invalid_login_shows_error(
     start = perf_counter()
 
     try:
-        driver.get(_login_url(base_url))
+        _open_login_page(driver, base_url)
         _submit_login(driver, VALID_EMAIL, "wrong-password")
         _wait_for_element(driver, "login-error")
 
@@ -153,7 +153,7 @@ def check_valid_login_reaches_dashboard(
     start = perf_counter()
 
     try:
-        driver.get(_login_url(base_url))
+        _open_login_page(driver, base_url)
         _submit_login(driver, VALID_EMAIL, VALID_PASSWORD)
         _wait_for_element(driver, "dashboard-welcome")
 
@@ -209,12 +209,15 @@ def check_logout_returns_to_login(
     start = perf_counter()
 
     try:
-        driver.get(_login_url(base_url))
+        _open_login_page(driver, base_url)
         _submit_login(driver, VALID_EMAIL, VALID_PASSWORD)
         _wait_for_element(driver, "logout-link")
+        driver.get(_logout_url(base_url))
+        _wait_for_url_contains(driver, "/login")
+        _wait_for_element(driver, "login-email")
 
-        driver.find_element(By.ID, "logout-link").click()
-        _wait_for_element(driver, "login-form")
+        driver.get(_dashboard_url(base_url))
+        _wait_for_url_contains(driver, "/login")
 
         heading = driver.find_element(By.TAG_NAME, "h1").text.strip()
         current_url = driver.current_url
@@ -258,11 +261,25 @@ def _submit_login(driver, email: str, password: str) -> None:
     Fill and submit the login form.
     """
 
-    driver.find_element(By.ID, "login-email").clear()
-    driver.find_element(By.ID, "login-email").send_keys(email)
-    driver.find_element(By.ID, "login-password").clear()
-    driver.find_element(By.ID, "login-password").send_keys(password)
-    driver.find_element(By.ID, "submit-login").click()
+    email_input = _wait_for_element(driver, "login-email")
+    password_input = _wait_for_element(driver, "login-password")
+
+    email_input.clear()
+    email_input.send_keys(email)
+    password_input.clear()
+    password_input.send_keys(password)
+    _wait_for_clickable(driver, "submit-login").click()
+
+
+def _open_login_page(driver, base_url: str) -> None:
+    """
+    Open the login page from a clean browser session.
+    """
+
+    driver.get(base_url)
+    driver.delete_all_cookies()
+    driver.get(_login_url(base_url))
+    _wait_for_element(driver, "login-form")
 
 
 def _login_url(base_url: str) -> str:
@@ -271,6 +288,22 @@ def _login_url(base_url: str) -> str:
     """
 
     return urljoin(base_url, LOGIN_PATH)
+
+
+def _dashboard_url(base_url: str) -> str:
+    """
+    Return the dashboard page URL for a base URL.
+    """
+
+    return urljoin(base_url, DASHBOARD_PATH)
+
+
+def _logout_url(base_url: str) -> str:
+    """
+    Return the logout URL for a base URL.
+    """
+
+    return urljoin(base_url, "/logout")
 
 
 def _wait_for_element(driver, element_id: str):
@@ -285,6 +318,34 @@ def _wait_for_element(driver, element_id: str):
         EC.presence_of_element_located(
             (By.ID, element_id)
         )
+    )
+
+
+def _wait_for_clickable(driver, element_id: str):
+    """
+    Wait until an element is ready for user interaction.
+    """
+
+    return WebDriverWait(
+        driver,
+        10,
+    ).until(
+        EC.element_to_be_clickable(
+            (By.ID, element_id)
+        )
+    )
+
+
+def _wait_for_url_contains(driver, path: str):
+    """
+    Wait until the browser reaches a URL containing the expected path.
+    """
+
+    return WebDriverWait(
+        driver,
+        10,
+    ).until(
+        EC.url_contains(path)
     )
 
 
