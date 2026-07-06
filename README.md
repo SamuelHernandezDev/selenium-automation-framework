@@ -12,8 +12,10 @@ The goal is to show a clean automation architecture that can grow from public de
 - Configurable execution through YAML profiles.
 - A central driver factory.
 - Reusable check suites for navigation, error states, accessibility signals, and visual smoke checks.
+- Data-driven UI checks for searchable, filterable, and sortable tables.
 - Structured result models for checks, evidence, and full test runs.
 - JSON reports generated per execution.
+- Static HTML reports generated from structured execution data.
 - AI-ready context generated from real automation results.
 - A custom runner that can execute suites by profile, suite, or check.
 
@@ -23,6 +25,8 @@ The goal is to show a clean automation architecture that can grow from public de
 selenium-automation-framework/
 |-- checks/
 |   |-- accessibility_checks.py
+|   |-- auth_checks.py
+|   |-- data_table_checks.py
 |   |-- error_state_checks.py
 |   |-- form_validation_checks.py
 |   |-- input_checks.py
@@ -39,6 +43,7 @@ selenium-automation-framework/
 |   |-- ai_context_builder.py
 |   |-- driver_factory.py
 |   |-- evidence_collector.py
+|   |-- html_report_builder.py
 |   |-- result.py
 |   `-- test_runner.py
 |-- docs/
@@ -76,6 +81,7 @@ visual
 inputs
 forms
 auth
+data
 ```
 
 Current checks can be listed with:
@@ -153,7 +159,7 @@ Run against the local deterministic demo app:
 venv\Scripts\python.exe -m core.test_runner --profile local_demo
 ```
 
-The local demo profile includes navigation, error-state, accessibility, visual, input, form validation, and authentication checks.
+The local demo profile includes navigation, error-state, accessibility, visual, input, form validation, authentication, and data table checks.
 
 Run a specific suite:
 
@@ -202,6 +208,13 @@ latest_ai_context.json
 <run_id>_ai_context.json
 ```
 
+It also writes a static HTML summary under `reports/html/`:
+
+```text
+latest_report.html
+<run_id>.html
+```
+
 Visual and failure evidence is stored under:
 
 ```text
@@ -241,6 +254,7 @@ Some areas are intentionally reserved for future expansion:
 - `tests/` contains internal unit tests for the framework.
 - Selenium browser execution is validated through the runner, not through unit tests.
 - `input_checks.py` and `form_validation_checks.py` cover the local contact form flow.
+- `data_table_checks.py` covers search, filtering, and sorting against the local ticket table.
 
 ## License
 

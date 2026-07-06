@@ -90,6 +90,12 @@ jobs:
           --profile local_demo
           --suite auth
 
+      - name: Run data table checks
+        run: >
+          python -m core.test_runner
+          --profile local_demo
+          --suite data
+
       - name: Upload generated reports on failure
         if: failure()
         uses: actions/upload-artifact@v4

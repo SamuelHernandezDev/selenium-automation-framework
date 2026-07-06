@@ -49,6 +49,7 @@ local_demo:
     - inputs
     - forms
     - auth
+    - data
   browser:
     name: "chrome"
     headless: true

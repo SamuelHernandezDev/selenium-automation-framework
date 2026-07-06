@@ -8,7 +8,8 @@ This project is organized around a small set of contracts:
 - results capture structured outcomes,
 - evidence collectors capture artifacts,
 - the runner coordinates execution,
-- the AI context builder transforms results into reporting input.
+- the AI context builder transforms results into reporting input,
+- the HTML report builder renders a static stakeholder summary.
 
 ## Runtime Flow
 
@@ -33,6 +34,9 @@ reports/json/*.json
         |
         v
 core/ai_context_builder.py
+        |
+        v
+reports/html/*.html
 ```
 
 The optional local demo target lives in `demo_app/` and can be used through the `local_demo` profile.
@@ -72,6 +76,8 @@ Profiles control:
 
 `core/ai_context_builder.py` converts technical results into AI-ready reporting context.
 
+`core/html_report_builder.py` converts the run result and AI-ready context into a static HTML report.
+
 ### checks
 
 Checks are reusable functions that follow this contract:
@@ -92,6 +98,7 @@ Current suites:
 - `inputs`
 - `forms`
 - `auth`
+- `data`
 
 `checks/registry.py` is the central source used by the runner.
 
@@ -115,6 +122,7 @@ The runner writes:
 
 - technical run JSON,
 - AI-ready context JSON,
+- static HTML report,
 - screenshots,
 - optional DOM evidence.
 
@@ -127,6 +135,10 @@ The runner writes:
 - `/status-codes`
 - `/status-codes/<code>`
 - `/contact`
+- `/tickets`
+- `/login`
+- `/dashboard`
+- `/logout`
 - `/health`
 
 The app exists so browser automation can run against a controlled target during local development and future CI.
@@ -134,6 +146,8 @@ The app exists so browser automation can run against a controlled target during 
 The input and form validation suites use the `/contact` flow to exercise required fields, invalid input feedback, accessible errors, and successful submission.
 
 The auth suite uses `/login`, `/dashboard`, and `/logout` to exercise valid login, invalid login feedback, protected page access, and session clearing.
+
+The data suite uses `/tickets` to exercise table rendering, search, status filtering, and priority sorting against deterministic ticket data.
 
 ## Design Principles
 

@@ -2,7 +2,12 @@
 Unit tests for the local demo application.
 """
 
-from demo_app.app import create_app, validate_contact_form, validate_login_form
+from demo_app.app import (
+    QA_TICKETS,
+    create_app,
+    validate_contact_form,
+    validate_login_form,
+)
 
 
 def test_health_endpoint_returns_ok():
@@ -27,6 +32,7 @@ def test_home_page_exposes_demo_navigation_links():
     assert "Redirect Link" in html
     assert "Contact Form" in html
     assert "Login Flow" in html
+    assert "Ticket Table" in html
 
 
 def test_status_code_detail_returns_configured_status():
@@ -37,6 +43,23 @@ def test_status_code_detail_returns_configured_status():
 
     assert response.status_code == 500
     assert "server error 500" in response.get_data(as_text=True)
+
+
+def test_tickets_page_renders_deterministic_ticket_table():
+    app = create_app()
+    client = app.test_client()
+
+    response = client.get("/tickets")
+    html = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "QA Tickets" in html
+    assert "ticket-search" in html
+    assert "status-filter" in html
+    assert "sort-priority" in html
+    assert len(QA_TICKETS) == 4
+    assert "QA-104" in html
+    assert "Password reset handles expired token" in html
 
 
 def test_contact_form_validation_reports_required_fields():

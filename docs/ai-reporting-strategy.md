@@ -20,9 +20,12 @@ reports/json/latest_run.json
 reports/json/<run_id>.json
 reports/json/latest_ai_context.json
 reports/json/<run_id>_ai_context.json
+reports/html/latest_report.html
+reports/html/<run_id>.html
 ```
 
 The technical run JSON is the source of truth. The AI context is a derived, compact reporting payload.
+The HTML report is a readable static view over the same structured data.
 
 ## AI Context Contents
 

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Tickets{% endblock %}
+
+{% block content %}
+  <section class="panel" data-testid="tickets-panel">
+    <h1>QA Tickets</h1>
+    <p>Deterministic data table for search, filter, and sorting checks.</p>
+
+    <div class="toolbar" aria-label="Ticket table controls">
+      <div class="field compact">
+        <label for="ticket-search">Search tickets</label>
+        <input id="ticket-search" type="search" placeholder="Search by ID, title, or owner">
+      </div>
+
+      <div class="field compact">
+        <label for="status-filter">Status</label>
+        <select id="status-filter">
+          <option value="all">All statuses</option>
+          <option value="Open">Open</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+
+      <button id="sort-priority" class="button secondary" type="button" aria-pressed="false">
+        Sort Priority
+      </button>
+    </div>
+
+    <p id="ticket-count" class="summary" aria-live="polite">{{ tickets|length }} tickets shown</p>
+
+    <div class="table-wrap">
+      <table id="tickets-table">
+        <caption>QA ticket review queue</caption>
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ticket in tickets %}
+            <tr
+              data-ticket-row
+              data-search="{{ ticket.id }} {{ ticket.title }} {{ ticket.owner }}"
+              data-status="{{ ticket.status }}"
+              data-priority="{{ ticket.priority }}"
+            >
+              <td>{{ ticket.id }}</td>
+              <td>{{ ticket.title }}</td>
+              <td><span class="badge">{{ ticket.status }}</span></td>
+              <td>{{ ticket.priority }}</td>
+              <td>{{ ticket.owner }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    const searchInput = document.querySelector("#ticket-search");
+    const statusFilter = document.querySelector("#status-filter");
+    const sortButton = document.querySelector("#sort-priority");
+    const ticketCount = document.querySelector("#ticket-count");
+    const tableBody = document.querySelector("#tickets-table tbody");
+    const rows = Array.from(document.querySelectorAll("[data-ticket-row]"));
+    const priorityRank = {
+      Critical: 1,
+      High: 2,
+      Medium: 3,
+      Low: 4
+    };
+
+    function visibleRows() {
+      return rows.filter((row) => !row.hidden);
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      const status = statusFilter.value;
+
+      rows.forEach((row) => {
+        const matchesQuery = row.dataset.search.toLowerCase().includes(query);
+        const matchesStatus = status === "all" || row.dataset.status === status;
+        row.hidden = !(matchesQuery && matchesStatus);
+      });
+
+      const visibleCount = visibleRows().length;
+      ticketCount.textContent = `${visibleCount} ${visibleCount === 1 ? "ticket" : "tickets"} shown`;
+    }
+
+    function sortByPriority() {
+      const sortedRows = [...rows].sort((left, right) => {
+        return priorityRank[left.dataset.priority] - priorityRank[right.dataset.priority];
+      });
+
+      sortedRows.forEach((row) => tableBody.appendChild(row));
+      sortButton.setAttribute("aria-pressed", "true");
+      applyFilters();
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+    sortButton.addEventListener("click", sortByPriority);
+  </script>
+{% endblock %}

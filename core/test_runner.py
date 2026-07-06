@@ -18,6 +18,7 @@ from config.settings import FrameworkSettings, load_settings
 from core.ai_context_builder import AIContextBuilder
 from core.driver_factory import create_driver
 from core.evidence_collector import EvidenceCollector
+from core.html_report_builder import HTMLReportBuilder
 from core.result import CheckResult, Severity, TestRunResult
 
 
@@ -86,11 +87,15 @@ class TestRunner:
         """
 
         json_dir = self.settings.reports_dir / "json"
+        html_dir = self.settings.reports_dir / "html"
         latest_path = json_dir / "latest_run.json"
         run_path = json_dir / f"{run_result.run_id}.json"
         latest_ai_context_path = json_dir / "latest_ai_context.json"
         ai_context_path = json_dir / f"{run_result.run_id}_ai_context.json"
+        latest_html_path = html_dir / "latest_report.html"
+        html_path = html_dir / f"{run_result.run_id}.html"
         ai_context = AIContextBuilder().build(run_result)
+        html_builder = HTMLReportBuilder()
 
         run_result.save_json(run_path)
         run_result.save_json(latest_path)
@@ -102,12 +107,24 @@ class TestRunner:
             ai_context,
             latest_ai_context_path,
         )
+        html_builder.save(
+            run_result,
+            ai_context,
+            html_path,
+        )
+        html_builder.save(
+            run_result,
+            ai_context,
+            latest_html_path,
+        )
 
         return {
             "run": run_path,
             "latest": latest_path,
             "ai_context": ai_context_path,
             "latest_ai_context": latest_ai_context_path,
+            "html_report": html_path,
+            "latest_html_report": latest_html_path,
         }
 
     def _save_json(
@@ -330,6 +347,8 @@ def _print_summary(
     print(f"Run JSON: {output_paths['run']}")
     print(f"Latest AI Context: {output_paths['latest_ai_context']}")
     print(f"AI Context: {output_paths['ai_context']}")
+    print(f"Latest HTML Report: {output_paths['latest_html_report']}")
+    print(f"HTML Report: {output_paths['html_report']}")
 
 
 if __name__ == "__main__":

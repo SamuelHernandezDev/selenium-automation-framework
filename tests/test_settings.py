@@ -65,4 +65,5 @@ def test_local_demo_profile_includes_form_suites():
 
     assert "inputs" in settings.suites
     assert "forms" in settings.suites
+    assert "data" in settings.suites
     assert settings.base_url == "http://127.0.0.1:5000/"

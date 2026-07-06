@@ -12,6 +12,36 @@ from flask import Flask, redirect, render_template, request, session, url_for
 
 VALID_EMAIL = "qa@example.com"
 VALID_PASSWORD = "Password123"
+QA_TICKETS = [
+    {
+        "id": "QA-101",
+        "title": "Checkout form blocks missing email",
+        "status": "Open",
+        "priority": "High",
+        "owner": "Ada",
+    },
+    {
+        "id": "QA-102",
+        "title": "Login redirects authenticated users",
+        "status": "In Progress",
+        "priority": "Medium",
+        "owner": "Grace",
+    },
+    {
+        "id": "QA-103",
+        "title": "Dashboard exports preserve filters",
+        "status": "Closed",
+        "priority": "Low",
+        "owner": "Linus",
+    },
+    {
+        "id": "QA-104",
+        "title": "Password reset handles expired token",
+        "status": "Open",
+        "priority": "Critical",
+        "owner": "Margaret",
+    },
+]
 
 
 @dataclass(frozen=True)
@@ -79,6 +109,13 @@ def create_app() -> Flask:
         return render_template(
             "dashboard.html",
             user_email=user_email,
+        )
+
+    @app.get("/tickets")
+    def tickets():
+        return render_template(
+            "tickets.html",
+            tickets=QA_TICKETS,
         )
 
     @app.get("/logout")

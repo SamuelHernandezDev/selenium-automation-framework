@@ -119,6 +119,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid #bcccdc;
@@ -141,19 +142,84 @@ textarea {
   border-color: #7bc47f;
 }
 
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr 220px auto;
+  gap: 16px;
+  align-items: end;
+  margin: 24px 0 12px;
+}
+
+.field.compact {
+  margin-bottom: 0;
+}
+
+.summary {
+  margin: 0 0 12px;
+  color: #52606d;
+  font-weight: 700;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+caption {
+  padding: 12px;
+  color: #52606d;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-top: 1px solid #d8e0ea;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  background: #f0f4f8;
+  color: #102a43;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e6f6ff;
+  color: #0b5c8e;
+  font-weight: 700;
+}
+
 @media (max-width: 720px) {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .grid {
+  .grid,
+  .toolbar {
     grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 721px) and (max-width: 980px) {
   .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

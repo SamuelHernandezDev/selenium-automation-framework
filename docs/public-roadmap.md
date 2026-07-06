@@ -25,13 +25,13 @@ This roadmap separates what belongs in the public showcase from private future w
 - Local Flask demo app for deterministic browser automation.
 - Input and form validation checks for the local contact flow.
 - Authentication demo flow and Selenium checks.
+- Data table demo flow with search, filtering, sorting, and Selenium checks.
+- Static HTML report generation from structured run data.
 - GitHub Actions CI for unit tests, dependency checks, and local Selenium demo execution.
 
 ## Next Public Improvements
 
 - Add README examples with sample output snippets.
-- Use the local demo app for CI-safe browser checks.
-- Add simple HTML report generation from JSON.
 
 ## Future Public Enhancements
 
