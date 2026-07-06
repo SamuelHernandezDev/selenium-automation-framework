@@ -40,6 +40,10 @@ selenium-automation-framework/
 |   |-- ai-reporting-strategy.md
 |   |-- architecture.md
 |   `-- public-roadmap.md
+|-- demo_app/
+|   |-- app.py
+|   |-- static/
+|   `-- templates/
 |-- pages/
 |   |-- base_page.py
 |   |-- home_page.py
@@ -101,6 +105,22 @@ Check dependency consistency:
 venv\Scripts\python.exe -m pip check
 ```
 
+## Run The Local Demo App
+
+The repository includes a deterministic Flask app used as a local Selenium target.
+
+Start it with:
+
+```bash
+venv\Scripts\python.exe -m demo_app.app
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5000/
+```
+
 ## Run The Framework
 
 Run the default profile:
@@ -116,6 +136,12 @@ venv\Scripts\python.exe -m core.test_runner --profile full_demo
 ```
 
 This profile targets a public demo site, so browser results can be affected by external availability. Use the unit test suite for deterministic local validation.
+
+Run against the local deterministic demo app:
+
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile local_demo
+```
 
 Run a specific suite:
 
@@ -145,6 +171,12 @@ Recommended local validation:
 venv\Scripts\python.exe -m pytest
 venv\Scripts\python.exe -m pip check
 venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation --check page_title
+```
+
+For deterministic browser validation, start `demo_app` first and run:
+
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile local_demo
 ```
 
 ## Output
@@ -190,13 +222,13 @@ See [docs/ai-reporting-strategy.md](docs/ai-reporting-strategy.md).
 
 ## Current Status
 
-The framework can execute real Selenium checks against a public demo site and produce JSON reports plus AI-ready context.
+The framework can execute real Selenium checks against both a public demo site and the included local Flask demo app. It produces JSON reports plus AI-ready context.
 
 Some areas are intentionally reserved for future expansion:
 
 - `tests/` contains internal unit tests for the framework.
 - Selenium browser execution is validated through the runner, not through unit tests.
-- `input_checks.py` and `form_validation_checks.py` are reserved for future flows with real forms.
+- `input_checks.py` and `form_validation_checks.py` are reserved for deeper form-specific checks.
 
 ## License
 

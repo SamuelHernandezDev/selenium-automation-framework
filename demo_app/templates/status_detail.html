@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Status {{ code }}{% endblock %}
+
+{% block content %}
+  <section class="panel" data-testid="status-detail-panel">
+    <h1>Status {{ code }}</h1>
+    <p id="status-message">{{ message }}</p>
+    <a class="button secondary" href="{{ url_for('status_codes') }}">Back to Status Codes</a>
+  </section>
+{% endblock %}

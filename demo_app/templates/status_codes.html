@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Status Codes{% endblock %}
+
+{% block content %}
+  <section class="panel" data-testid="status-codes-panel">
+    <h1>Status Codes</h1>
+    <p>Use these deterministic pages to test success and error-state flows.</p>
+
+    <ul class="status-list">
+      {% for code in codes %}
+        <li>
+          <a href="{{ url_for('status_code_detail', code=code) }}">{{ code }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

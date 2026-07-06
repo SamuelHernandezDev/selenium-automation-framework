@@ -22,12 +22,13 @@ This roadmap separates what belongs in the public showcase from private future w
 - Removal of the legacy driver wrapper.
 - Generated reports kept out of source control.
 - Page Objects refined to avoid direct runtime configuration ownership.
+- Local Flask demo app for deterministic browser automation.
 
 ## Next Public Improvements
 
 - Add README examples with sample output snippets.
 - Add GitHub Actions for static validation.
-- Add a local deterministic demo page or fixture for CI-safe browser checks.
+- Use the local demo app for CI-safe browser checks.
 - Add simple HTML report generation from JSON.
 
 ## Future Public Enhancements

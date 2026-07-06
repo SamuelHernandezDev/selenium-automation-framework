@@ -35,6 +35,8 @@ reports/json/*.json
 core/ai_context_builder.py
 ```
 
+The optional local demo target lives in `demo_app/` and can be used through the `local_demo` profile.
+
 ## Layers
 
 ### config
@@ -94,7 +96,7 @@ Current suites:
 
 Page Objects encapsulate Selenium interactions with specific pages.
 
-Current Page Objects target the public demo site:
+Current Page Objects target stable demo flows:
 
 - home page,
 - redirect page,
@@ -112,6 +114,19 @@ The runner writes:
 - AI-ready context JSON,
 - screenshots,
 - optional DOM evidence.
+
+### demo_app
+
+`demo_app/` is a small Flask application included in the monorepo. It provides deterministic routes for automation:
+
+- `/`
+- `/redirect`
+- `/status-codes`
+- `/status-codes/<code>`
+- `/contact`
+- `/health`
+
+The app exists so browser automation can run against a controlled target during local development and future CI.
 
 ## Design Principles
 
@@ -134,4 +149,5 @@ Current unit test coverage focuses on:
 - settings loading,
 - registry resolution,
 - AI context generation,
-- Page Object basics.
+- Page Object basics,
+- local demo app behavior.

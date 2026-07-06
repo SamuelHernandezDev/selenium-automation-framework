@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Home{% endblock %}
+
+{% block content %}
+  <section class="hero" data-testid="home-hero">
+    <h1>QA Demo Target</h1>
+    <p>A deterministic local application built for UI automation examples.</p>
+  </section>
+
+  <section class="grid" aria-label="Available demo flows">
+    <article>
+      <h2>Navigation</h2>
+      <p>Validate links, headings, and redirect paths.</p>
+      <a id="redirect-link" class="button" href="{{ url_for('redirect_page') }}">Redirect Link</a>
+    </article>
+
+    <article>
+      <h2>Status Codes</h2>
+      <p>Exercise predictable status and error-state pages.</p>
+      <a id="status-codes-link" class="button" href="{{ url_for('status_codes') }}">Status Codes</a>
+    </article>
+
+    <article>
+      <h2>Forms</h2>
+      <p>Validate required fields, invalid input, and successful submission.</p>
+      <a id="contact-link" class="button" href="{{ url_for('contact') }}">Contact Form</a>
+    </article>
+  </section>
+{% endblock %}

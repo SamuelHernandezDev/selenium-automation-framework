@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Contact{% endblock %}
+
+{% block content %}
+  <section class="panel" data-testid="contact-panel">
+    <h1>Contact Form</h1>
+    <p>Submit the form to exercise input and validation checks.</p>
+
+    <form id="contact-form" method="post" action="{{ url_for('contact') }}" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          maxlength="60"
+          value="{{ values.name }}"
+          aria-describedby="name-error"
+          {% if errors.name %}aria-invalid="true"{% endif %}
+        >
+        {% if errors.name %}
+          <p id="name-error" class="error">{{ errors.name }}</p>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value="{{ values.email }}"
+          aria-describedby="email-error"
+          {% if errors.email %}aria-invalid="true"{% endif %}
+        >
+        {% if errors.email %}
+          <p id="email-error" class="error">{{ errors.email }}</p>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          maxlength="500"
+          aria-describedby="message-error"
+          {% if errors.message %}aria-invalid="true"{% endif %}
+        >{{ values.message }}</textarea>
+        {% if errors.message %}
+          <p id="message-error" class="error">{{ errors.message }}</p>
+        {% endif %}
+      </div>
+
+      <button id="submit-contact" class="button" type="submit">Submit</button>
+    </form>
+  </section>
+{% endblock %}

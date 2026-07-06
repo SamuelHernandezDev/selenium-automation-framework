@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}QA Demo Target - Contact Submitted{% endblock %}
+
+{% block content %}
+  <section class="panel success" data-testid="contact-success-panel">
+    <h1>Contact Submitted</h1>
+    <p id="success-message">Thanks, {{ submission.name }}. Your message was submitted successfully.</p>
+    <dl>
+      <dt>Email</dt>
+      <dd>{{ submission.email }}</dd>
+    </dl>
+    <a class="button secondary" href="{{ url_for('contact') }}">Submit Another Message</a>
+  </section>
+{% endblock %}

@@ -22,8 +22,8 @@ class RedirectPage(BasePage):
     # --------------------------------------------------
 
     HEADING = (
-        By.TAG_NAME,
-        "h3",
+        By.CSS_SELECTOR,
+        "h1, h2, h3",
     )
 
     REDIRECT_BUTTON = (
