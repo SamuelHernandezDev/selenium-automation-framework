@@ -1,6 +1,6 @@
 # Selenium Automation Framework
 
-[![CI](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml)
+[![CI](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml)
 
 A modular UI automation framework built with Python, Selenium WebDriver, Page Object Model patterns, configurable check suites, JSON reporting, and AI-ready execution context.
 
