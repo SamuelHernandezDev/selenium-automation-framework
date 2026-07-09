@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 
 from core.evidence_collector import EvidenceCollector
 from core.result import CheckResult, Severity
@@ -47,8 +47,7 @@ def check_ticket_table_renders(
     start = perf_counter()
 
     try:
-        driver.get(_tickets_url(base_url))
-        _wait_for_element(driver, "tickets-table")
+        _open_tickets_page(driver, base_url)
 
         headers = [
             element.text.strip()
@@ -114,17 +113,15 @@ def check_ticket_search_and_status_filter(
     start = perf_counter()
 
     try:
-        driver.get(_tickets_url(base_url))
-        _wait_for_element(driver, "tickets-table")
+        _open_tickets_page(driver, base_url)
 
-        search = driver.find_element(By.ID, "ticket-search")
-        search.send_keys("password")
+        _set_input_value(driver, "ticket-search", "password")
         _wait_for_ticket_count(driver, "1 ticket shown")
 
         searched_ids = _visible_ticket_ids(driver)
 
-        search.clear()
-        Select(driver.find_element(By.ID, "status-filter")).select_by_visible_text("Open")
+        _set_input_value(driver, "ticket-search", "")
+        _select_value(driver, "status-filter", "Open")
         _wait_for_ticket_count(driver, "2 tickets shown")
 
         filtered_ids = _visible_ticket_ids(driver)
@@ -185,9 +182,8 @@ def check_ticket_priority_sort(
     start = perf_counter()
 
     try:
-        driver.get(_tickets_url(base_url))
-        _wait_for_element(driver, "tickets-table")
-        driver.find_element(By.ID, "sort-priority").click()
+        _open_tickets_page(driver, base_url)
+        _click_control(driver, "sort-priority")
         _wait_for_first_ticket(driver, "QA-104")
 
         priorities = [
@@ -248,6 +244,16 @@ def _tickets_url(base_url: str) -> str:
     )
 
 
+def _open_tickets_page(driver, base_url: str) -> None:
+    """
+    Open the tickets page and wait until its interactive controls are ready.
+    """
+
+    driver.get(_tickets_url(base_url))
+    _wait_for_element(driver, "tickets-table")
+    _wait_for_tickets_ready(driver)
+
+
 def _visible_rows(driver):
     """
     Return visible ticket table rows.
@@ -282,6 +288,67 @@ def _wait_for_element(driver, element_id: str):
     ).until(
         EC.presence_of_element_located(
             (By.ID, element_id)
+        )
+    )
+
+
+def _set_input_value(driver, element_id: str, value: str) -> None:
+    """
+    Set an input value and dispatch the browser input event.
+    """
+
+    _wait_for_element(driver, element_id)
+    driver.execute_script(
+        """
+        const input = document.getElementById(arguments[0]);
+        input.value = arguments[1];
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        """,
+        element_id,
+        value,
+    )
+
+
+def _select_value(driver, element_id: str, value: str) -> None:
+    """
+    Select an option value and dispatch the browser change event.
+    """
+
+    _wait_for_element(driver, element_id)
+    driver.execute_script(
+        """
+        const select = document.getElementById(arguments[0]);
+        select.value = arguments[1];
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        """,
+        element_id,
+        value,
+    )
+
+
+def _click_control(driver, element_id: str) -> None:
+    """
+    Activate a control through the browser click API.
+    """
+
+    _wait_for_element(driver, element_id)
+    driver.execute_script(
+        "document.getElementById(arguments[0]).click();",
+        element_id,
+    )
+
+
+def _wait_for_tickets_ready(driver):
+    """
+    Wait until the tickets page script has attached event handlers.
+    """
+
+    return WebDriverWait(
+        driver,
+        10,
+    ).until(
+        lambda current_driver: current_driver.execute_script(
+            "return window.qaTicketsReady === true"
         )
     )
 

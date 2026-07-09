@@ -2,95 +2,24 @@
 
 [![CI](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SamuelHernandezDev/selenium-automation-framework/actions/workflows/ci.yml)
 
-A modular UI automation framework built with Python, Selenium WebDriver, Page Object Model patterns, configurable check suites, JSON reporting, and AI-ready execution context.
+A modular UI automation framework built with Python, Selenium WebDriver, configurable check suites, a deterministic Flask demo app, CI validation, JSON reports, static HTML reports, and AI-ready execution context.
 
-The goal is to show a clean automation architecture that can grow from public demo checks into private reporting, test-case generation, and AI-assisted QA workflows.
+This repository is a public portfolio project. It demonstrates how I structure browser automation, test execution, evidence collection, reporting, and future AI-assisted QA workflows without exposing private prompts, credentials, or client-specific templates.
 
-## What This Project Demonstrates
+## What This Demonstrates
 
-- Selenium WebDriver automation with reusable Page Objects.
+- Selenium WebDriver automation with reusable Page Object patterns.
 - Configurable execution through YAML profiles.
-- A central driver factory.
-- Reusable check suites for navigation, error states, accessibility signals, and visual smoke checks.
-- Data-driven UI checks for searchable, filterable, and sortable tables.
+- A central browser driver factory.
+- Modular check suites for navigation, error states, accessibility signals, visual smoke checks, inputs, forms, authentication, and data tables.
+- A deterministic local Flask app used as a stable automation target.
 - Structured result models for checks, evidence, and full test runs.
-- JSON reports generated per execution.
-- Static HTML reports generated from structured execution data.
+- JSON reports and static HTML reports generated from each run.
 - AI-ready context generated from real automation results.
-- A custom runner that can execute suites by profile, suite, or check.
+- GitHub Actions validation with downloadable generated reports.
+- A custom runner that can execute by profile, suite, check, or target URL.
 
-## Project Structure
-
-```text
-selenium-automation-framework/
-|-- checks/
-|   |-- accessibility_checks.py
-|   |-- auth_checks.py
-|   |-- data_table_checks.py
-|   |-- error_state_checks.py
-|   |-- form_validation_checks.py
-|   |-- input_checks.py
-|   |-- navigation_checks.py
-|   |-- registry.py
-|   `-- visual_checks.py
-|-- config/
-|   |-- settings.py
-|   `-- test_profiles.yaml
-|-- .github/
-|   `-- workflows/
-|       `-- ci.yml
-|-- core/
-|   |-- ai_context_builder.py
-|   |-- driver_factory.py
-|   |-- evidence_collector.py
-|   |-- html_report_builder.py
-|   |-- result.py
-|   `-- test_runner.py
-|-- docs/
-|   |-- ai-reporting-strategy.md
-|   |-- architecture.md
-|   `-- public-roadmap.md
-|-- demo_app/
-|   |-- app.py
-|   |-- static/
-|   `-- templates/
-|-- pages/
-|   |-- base_page.py
-|   |-- home_page.py
-|   |-- redirect_page.py
-|   `-- status_codes_page.py
-|-- tests/
-|   |-- test_ai_context_builder.py
-|   |-- test_pages.py
-|   |-- test_registry.py
-|   |-- test_result_models.py
-|   `-- test_settings.py
-|-- requirements.txt
-`-- README.md
-```
-
-Generated reports and screenshots are ignored by Git and created at runtime.
-
-## Available Suites
-
-```text
-navigation
-error_states
-accessibility
-visual
-inputs
-forms
-auth
-data
-```
-
-Current checks can be listed with:
-
-```bash
-venv\Scripts\python.exe -m core.test_runner --list
-```
-
-## Setup
+## Quick Start
 
 Create and activate a virtual environment:
 
@@ -105,72 +34,78 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## Validate The Project
-
-Run the internal unit tests:
+Run the framework unit tests:
 
 ```bash
 venv\Scripts\python.exe -m pytest
 ```
 
-Check dependency consistency:
-
-```bash
-venv\Scripts\python.exe -m pip check
-```
-
-GitHub Actions runs unit tests, dependency checks, the local Flask demo app, and grouped Selenium suites from the `local_demo` profile on every push and pull request to `main`.
-
-## Run The Local Demo App
-
-The repository includes a deterministic Flask app used as a local Selenium target.
-
-Start it with:
+Start the local deterministic demo app:
 
 ```bash
 venv\Scripts\python.exe -m demo_app.app
 ```
 
-Then open:
-
-```text
-http://127.0.0.1:5000/
-```
-
-## Run The Framework
-
-Run the default profile:
-
-```bash
-venv\Scripts\python.exe -m core.test_runner --profile default
-```
-
-Run the full public demo profile:
-
-```bash
-venv\Scripts\python.exe -m core.test_runner --profile full_demo
-```
-
-This profile targets a public demo site, so browser results can be affected by external availability. Use the unit test suite for deterministic local validation.
-
-Run against the local deterministic demo app:
+In another terminal, run the full local automation profile:
 
 ```bash
 venv\Scripts\python.exe -m core.test_runner --profile local_demo
 ```
 
-The local demo profile includes navigation, error-state, accessibility, visual, input, form validation, authentication, and data table checks.
+Example output:
 
-Run a specific suite:
-
-```bash
-venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation
+```text
+Automation run completed
+Profile: local_demo
+Suites: navigation,error_states,accessibility,visual,inputs,forms,auth,data
+Checks: 24 total, 22 passed, 0 failed, 0 warning, 2 skipped, 0 error
+Latest JSON: reports\json\latest_run.json
+Latest AI Context: reports\json\latest_ai_context.json
+Latest HTML Report: reports\html\latest_report.html
 ```
 
-Run a specific check:
+## Demo App Coverage
+
+The included Flask app exposes predictable pages for browser automation:
+
+| Area | Route | What gets validated |
+| --- | --- | --- |
+| Home and navigation | `/` | Page title, current URL, expected links |
+| Redirect flow | `/redirect` | Link-driven navigation and redirect behavior |
+| Status pages | `/status-codes` | Expected status-code messaging and error-state pages |
+| Contact form | `/contact` | Required fields, invalid input, accessible errors, successful submit |
+| Authentication | `/login`, `/dashboard`, `/logout` | Login form, invalid credentials, valid login, protected page, logout |
+| Ticket table | `/tickets` | Table rendering, search, status filtering, priority sorting |
+
+## Available Suites
+
+| Suite | Purpose |
+| --- | --- |
+| `navigation` | Basic page identity, URL, and redirect flow checks |
+| `error_states` | Predictable status-code and error page checks |
+| `accessibility` | Lightweight accessibility signals such as headings, alt text, and form names |
+| `visual` | Smoke-level rendering, viewport, overflow, and screenshot evidence checks |
+| `inputs` | Input presence, labels, constraints, and invalid input feedback |
+| `forms` | Contact form validation, success paths, and accessible error references |
+| `auth` | Login, invalid credential handling, protected route behavior, and logout |
+| `data` | Searchable, filterable, sortable ticket table behavior |
+
+List all registered suites and checks:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation --check page_title
+venv\Scripts\python.exe -m core.test_runner --list
+```
+
+Run one suite:
+
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile local_demo --suite auth
+```
+
+Run one check:
+
+```bash
+venv\Scripts\python.exe -m core.test_runner --profile local_demo --suite data --check ticket_priority_sort
 ```
 
 Override the target URL:
@@ -179,27 +114,9 @@ Override the target URL:
 venv\Scripts\python.exe -m core.test_runner --profile default --base-url https://the-internet.herokuapp.com/
 ```
 
-## Validation Strategy
+## Reports
 
-Use `pytest` for deterministic framework checks. Use the Selenium runner for browser execution and evidence generation against the configured target.
-
-Recommended local validation:
-
-```bash
-venv\Scripts\python.exe -m pytest
-venv\Scripts\python.exe -m pip check
-venv\Scripts\python.exe -m core.test_runner --profile default --suite navigation --check page_title
-```
-
-For deterministic browser validation, start `demo_app` first and run:
-
-```bash
-venv\Scripts\python.exe -m core.test_runner --profile local_demo
-```
-
-## Output
-
-Each run writes structured artifacts under `reports/json/`:
+Each run writes technical JSON artifacts under `reports/json/`:
 
 ```text
 latest_run.json
@@ -208,7 +125,7 @@ latest_ai_context.json
 <run_id>_ai_context.json
 ```
 
-It also writes a static HTML summary under `reports/html/`:
+Each run also writes a static HTML summary under `reports/html/`:
 
 ```text
 latest_report.html
@@ -222,39 +139,136 @@ reports/screenshots/
 reports/dom/
 ```
 
-The repository does not track generated report folders. The runner creates them when needed.
+Generated reports are ignored by Git and created at runtime.
 
 ## AI-Ready Context
 
-This project does not call an AI API in the public version. Instead, it produces a safe structured payload that can be used later by a private AI reporting layer.
+The public version does not call an AI API. Instead, it produces a safe structured payload that can be consumed later by a private AI reporting layer.
 
-The AI context includes:
+Small example:
 
-- run summary and risk level,
-- executed suite coverage,
-- findings and evidence references,
-- recommended focus areas,
-- suggested future test cases,
-- reporting guidance.
+```json
+{
+  "summary": {
+    "total_checks": 24,
+    "passed": 22,
+    "failed": 0,
+    "error": 0,
+    "risk_level": "none"
+  },
+  "coverage": {
+    "executed_suites": [
+      "accessibility",
+      "auth",
+      "data",
+      "error_states",
+      "forms",
+      "inputs",
+      "navigation",
+      "visual"
+    ]
+  },
+  "recommended_focus": [
+    "No blocking issues detected in the executed checks."
+  ]
+}
+```
+
+The AI context is designed to support future private workflows such as QA summaries, bug report drafts, test case generation, and stakeholder-friendly release notes.
 
 See [docs/ai-reporting-strategy.md](docs/ai-reporting-strategy.md).
+
+## CI Validation
+
+GitHub Actions runs on every push and pull request to `main`.
+
+The workflow validates:
+
+- dependency installation,
+- unit tests with `pytest`,
+- dependency health with `pip check`,
+- local Flask demo startup,
+- grouped Selenium suites from the `local_demo` profile,
+- generated JSON, AI context, HTML reports, and demo logs as short-lived workflow artifacts.
+
+The CI uses grouped Selenium steps instead of one opaque browser run so failures are easier to diagnose by quality area.
+
+## Project Structure
+
+```text
+selenium-automation-framework/
+|-- .github/
+|   `-- workflows/
+|       `-- ci.yml
+|-- checks/
+|   |-- accessibility_checks.py
+|   |-- auth_checks.py
+|   |-- data_table_checks.py
+|   |-- error_state_checks.py
+|   |-- form_validation_checks.py
+|   |-- input_checks.py
+|   |-- navigation_checks.py
+|   |-- registry.py
+|   `-- visual_checks.py
+|-- config/
+|   |-- settings.py
+|   `-- test_profiles.yaml
+|-- core/
+|   |-- ai_context_builder.py
+|   |-- driver_factory.py
+|   |-- evidence_collector.py
+|   |-- html_report_builder.py
+|   |-- result.py
+|   `-- test_runner.py
+|-- demo_app/
+|   |-- app.py
+|   |-- static/
+|   `-- templates/
+|-- docs/
+|   |-- ai-reporting-strategy.md
+|   |-- architecture.md
+|   `-- public-roadmap.md
+|-- pages/
+|   |-- base_page.py
+|   |-- home_page.py
+|   |-- redirect_page.py
+|   `-- status_codes_page.py
+|-- tests/
+|   |-- test_ai_context_builder.py
+|   |-- test_demo_app.py
+|   |-- test_html_report_builder.py
+|   |-- test_pages.py
+|   |-- test_registry.py
+|   |-- test_result_models.py
+|   `-- test_settings.py
+|-- requirements.txt
+`-- README.md
+```
+
+## Technical Highlights
+
+- Checks follow a common contract and return structured `CheckResult` objects.
+- The runner owns browser lifecycle and report generation.
+- The registry decouples CLI selection from check implementation.
+- The demo app keeps CI deterministic and avoids relying only on third-party websites.
+- HTML and AI context are derived from the same run data, keeping reporting consistent.
+- Public code intentionally avoids API keys, private prompts, client workflows, and proprietary report templates.
+
+## Future Improvements
+
+- More flexible check parameters from YAML.
+- Browser selection beyond Chrome.
+- Better report artifact organization by run ID.
+- Optional DOM evidence on failures.
+- Lightweight accessibility expansion.
+- Visual baseline strategy without exposing private assets.
+- Private AI integration for test case documents and stakeholder reports.
 
 ## Documentation
 
 - [Architecture](docs/architecture.md)
 - [AI Reporting Strategy](docs/ai-reporting-strategy.md)
 - [Public Roadmap](docs/public-roadmap.md)
-
-## Current Status
-
-The framework can execute real Selenium checks against both a public demo site and the included local Flask demo app. It produces JSON reports plus AI-ready context.
-
-Some areas are intentionally reserved for future expansion:
-
-- `tests/` contains internal unit tests for the framework.
-- Selenium browser execution is validated through the runner, not through unit tests.
-- `input_checks.py` and `form_validation_checks.py` cover the local contact form flow.
-- `data_table_checks.py` covers search, filtering, and sorting against the local ticket table.
 
 ## License
 

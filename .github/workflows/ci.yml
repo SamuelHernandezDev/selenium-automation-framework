@@ -96,12 +96,13 @@ jobs:
           --profile local_demo
           --suite data
 
-      - name: Upload generated reports on failure
-        if: failure()
+      - name: Upload generated reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: generated-reports
+          name: local-demo-reports
           path: |
             reports/
             demo_app.log
           if-no-files-found: ignore
+          retention-days: 7

@@ -217,7 +217,7 @@ def check_logout_returns_to_login(
         _wait_for_element(driver, "login-email")
 
         driver.get(_dashboard_url(base_url))
-        _wait_for_url_contains(driver, "/login")
+        _wait_for_element(driver, "login-email")
 
         heading = driver.find_element(By.TAG_NAME, "h1").text.strip()
         current_url = driver.current_url

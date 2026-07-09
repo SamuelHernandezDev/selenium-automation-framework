@@ -63,49 +63,52 @@
   </section>
 
   <script>
-    const searchInput = document.querySelector("#ticket-search");
-    const statusFilter = document.querySelector("#status-filter");
-    const sortButton = document.querySelector("#sort-priority");
-    const ticketCount = document.querySelector("#ticket-count");
-    const tableBody = document.querySelector("#tickets-table tbody");
-    const rows = Array.from(document.querySelectorAll("[data-ticket-row]"));
-    const priorityRank = {
-      Critical: 1,
-      High: 2,
-      Medium: 3,
-      Low: 4
-    };
+    (function () {
+      const searchInput = document.querySelector("#ticket-search");
+      const statusFilter = document.querySelector("#status-filter");
+      const sortButton = document.querySelector("#sort-priority");
+      const ticketCount = document.querySelector("#ticket-count");
+      const tableBody = document.querySelector("#tickets-table tbody");
+      const rows = Array.from(document.querySelectorAll("[data-ticket-row]"));
+      const priorityRank = {
+        Critical: 1,
+        High: 2,
+        Medium: 3,
+        Low: 4
+      };
 
-    function visibleRows() {
-      return rows.filter((row) => !row.hidden);
-    }
+      function visibleRows() {
+        return rows.filter((row) => !row.hidden);
+      }
 
-    function applyFilters() {
-      const query = searchInput.value.trim().toLowerCase();
-      const status = statusFilter.value;
+      function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        const status = statusFilter.value;
 
-      rows.forEach((row) => {
-        const matchesQuery = row.dataset.search.toLowerCase().includes(query);
-        const matchesStatus = status === "all" || row.dataset.status === status;
-        row.hidden = !(matchesQuery && matchesStatus);
-      });
+        rows.forEach((row) => {
+          const matchesQuery = row.dataset.search.toLowerCase().includes(query);
+          const matchesStatus = status === "all" || row.dataset.status === status;
+          row.hidden = !(matchesQuery && matchesStatus);
+        });
 
-      const visibleCount = visibleRows().length;
-      ticketCount.textContent = `${visibleCount} ${visibleCount === 1 ? "ticket" : "tickets"} shown`;
-    }
+        const visibleCount = visibleRows().length;
+        ticketCount.textContent = `${visibleCount} ${visibleCount === 1 ? "ticket" : "tickets"} shown`;
+      }
 
-    function sortByPriority() {
-      const sortedRows = [...rows].sort((left, right) => {
-        return priorityRank[left.dataset.priority] - priorityRank[right.dataset.priority];
-      });
+      function sortByPriority() {
+        const sortedRows = [...rows].sort((left, right) => {
+          return priorityRank[left.dataset.priority] - priorityRank[right.dataset.priority];
+        });
 
-      sortedRows.forEach((row) => tableBody.appendChild(row));
-      sortButton.setAttribute("aria-pressed", "true");
-      applyFilters();
-    }
+        sortedRows.forEach((row) => tableBody.appendChild(row));
+        sortButton.setAttribute("aria-pressed", "true");
+        applyFilters();
+      }
 
-    searchInput.addEventListener("input", applyFilters);
-    statusFilter.addEventListener("change", applyFilters);
-    sortButton.addEventListener("click", sortByPriority);
+      searchInput.addEventListener("input", applyFilters);
+      statusFilter.addEventListener("change", applyFilters);
+      sortButton.addEventListener("click", sortByPriority);
+      window.qaTicketsReady = true;
+    }());
   </script>
 {% endblock %}
