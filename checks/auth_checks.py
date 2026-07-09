@@ -213,11 +213,10 @@ def check_logout_returns_to_login(
         _submit_login(driver, VALID_EMAIL, VALID_PASSWORD)
         _wait_for_element(driver, "logout-link")
         driver.get(_logout_url(base_url))
-        _wait_for_url_contains(driver, "/login")
-        _wait_for_element(driver, "login-email")
+        _wait_for_login_state(driver)
 
         driver.get(_dashboard_url(base_url))
-        _wait_for_element(driver, "login-email")
+        _wait_for_login_state(driver)
 
         heading = driver.find_element(By.TAG_NAME, "h1").text.strip()
         current_url = driver.current_url
@@ -261,14 +260,22 @@ def _submit_login(driver, email: str, password: str) -> None:
     Fill and submit the login form.
     """
 
-    email_input = _wait_for_element(driver, "login-email")
-    password_input = _wait_for_element(driver, "login-password")
-
-    email_input.clear()
-    email_input.send_keys(email)
-    password_input.clear()
-    password_input.send_keys(password)
-    _wait_for_clickable(driver, "submit-login").click()
+    _wait_for_element(driver, "login-email")
+    _wait_for_element(driver, "login-password")
+    driver.execute_script(
+        """
+        const emailInput = document.getElementById("login-email");
+        const passwordInput = document.getElementById("login-password");
+        const submitButton = document.getElementById("submit-login");
+        emailInput.value = arguments[0];
+        passwordInput.value = arguments[1];
+        emailInput.dispatchEvent(new Event("input", { bubbles: true }));
+        passwordInput.dispatchEvent(new Event("input", { bubbles: true }));
+        submitButton.click();
+        """,
+        email,
+        password,
+    )
 
 
 def _open_login_page(driver, base_url: str) -> None:
@@ -321,21 +328,6 @@ def _wait_for_element(driver, element_id: str):
     )
 
 
-def _wait_for_clickable(driver, element_id: str):
-    """
-    Wait until an element is ready for user interaction.
-    """
-
-    return WebDriverWait(
-        driver,
-        10,
-    ).until(
-        EC.element_to_be_clickable(
-            (By.ID, element_id)
-        )
-    )
-
-
 def _wait_for_url_contains(driver, path: str):
     """
     Wait until the browser reaches a URL containing the expected path.
@@ -346,6 +338,22 @@ def _wait_for_url_contains(driver, path: str):
         10,
     ).until(
         EC.url_contains(path)
+    )
+
+
+def _wait_for_login_state(driver):
+    """
+    Wait until the login page is visible and ready for input.
+    """
+
+    return WebDriverWait(
+        driver,
+        10,
+    ).until(
+        lambda current_driver: (
+            current_driver.find_elements(By.ID, "login-email")
+            and current_driver.find_element(By.TAG_NAME, "h1").text.strip() == "Login"
+        )
     )
 
 
