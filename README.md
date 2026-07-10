@@ -17,7 +17,7 @@ This repository is a public portfolio project. It demonstrates how I structure b
 - JSON reports and static HTML reports generated from each run.
 - AI-ready context generated from real automation results.
 - GitHub Actions validation with downloadable generated reports.
-- A custom runner that can execute by profile, suite, check, or target URL.
+- A professional CLI that can execute by profile, suite, check, or target URL.
 
 ## Quick Start
 
@@ -49,7 +49,7 @@ venv\Scripts\python.exe -m demo_app.app
 In another terminal, run the full local automation profile:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --profile local_demo
+venv\Scripts\python.exe -m core.cli run --profile local_demo
 ```
 
 Example output:
@@ -93,25 +93,31 @@ The included Flask app exposes predictable pages for browser automation:
 List all registered suites and checks:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --list
+venv\Scripts\python.exe -m core.cli list
 ```
 
 Run one suite:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --profile local_demo --suite auth
+venv\Scripts\python.exe -m core.cli run --profile local_demo --suite auth
 ```
 
 Run one check:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --profile local_demo --suite data --check ticket_priority_sort
+venv\Scripts\python.exe -m core.cli run --profile local_demo --suite data --check ticket_priority_sort
 ```
 
 Override the target URL:
 
 ```bash
-venv\Scripts\python.exe -m core.test_runner --profile default --base-url https://the-internet.herokuapp.com/
+venv\Scripts\python.exe -m core.cli run --profile default --base-url https://the-internet.herokuapp.com/
+```
+
+Inspect the latest generated report paths and summary:
+
+```bash
+venv\Scripts\python.exe -m core.cli report
 ```
 
 ## Reports
@@ -215,6 +221,7 @@ selenium-automation-framework/
 |   `-- test_profiles.yaml
 |-- core/
 |   |-- ai_context_builder.py
+|   |-- cli.py
 |   |-- driver_factory.py
 |   |-- evidence_collector.py
 |   |-- html_report_builder.py
@@ -235,6 +242,7 @@ selenium-automation-framework/
 |   `-- status_codes_page.py
 |-- tests/
 |   |-- test_ai_context_builder.py
+|   |-- test_cli.py
 |   |-- test_demo_app.py
 |   |-- test_html_report_builder.py
 |   |-- test_pages.py

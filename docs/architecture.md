@@ -7,6 +7,7 @@ This project is organized around a small set of contracts:
 - checks execute reusable validations,
 - results capture structured outcomes,
 - evidence collectors capture artifacts,
+- the CLI exposes user-facing commands,
 - the runner coordinates execution,
 - the AI context builder transforms results into reporting input,
 - the HTML report builder renders a static stakeholder summary.
@@ -18,6 +19,9 @@ config/test_profiles.yaml
         |
         v
 config/settings.py
+        |
+        v
+core/cli.py
         |
         v
 core/test_runner.py
@@ -71,6 +75,8 @@ Profiles control:
 `core/evidence_collector.py` captures browser state, screenshots, DOM snapshots, and failure bundles.
 
 `core/driver_factory.py` creates Selenium WebDriver instances from settings.
+
+`core/cli.py` exposes user-facing commands for running checks, listing suites/checks, and inspecting the latest report.
 
 `core/test_runner.py` executes registered checks and writes JSON artifacts.
 

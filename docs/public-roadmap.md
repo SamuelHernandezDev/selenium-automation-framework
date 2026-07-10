@@ -16,6 +16,7 @@ This roadmap separates what belongs in the public showcase from private future w
   - visual smoke checks.
 - Central check registry.
 - Custom test runner.
+- Professional CLI for run, list, and report commands.
 - JSON technical reports.
 - AI-ready context reports.
 - Internal pytest suite for framework contracts.
